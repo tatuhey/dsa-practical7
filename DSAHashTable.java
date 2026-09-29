@@ -1,5 +1,5 @@
+import java.io.*;
 import java.util.*;
-
 
 public class DSAHashTable {
     private int count = 0;
@@ -188,6 +188,21 @@ public class DSAHashTable {
         count = newCount;
 
     }
+
+    public void export(String fileName) {
+        try {
+            FileWriter writer = new FileWriter(fileName);
+            for(int i = 0; i < hashArray.length; i++) {
+                if(hashArray[i].getState() == 1)
+                    writer.write(hashArray[i].getKey() + "," + hashArray[i].getValue() + "\n");
+            }
+            
+            writer.close();
+        } catch(IOException e) {
+            System.out.println("Error during exporting the file. " + e.getMessage());
+        }
+    }
+
     //endregion
 
 }
