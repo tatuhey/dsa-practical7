@@ -103,6 +103,7 @@ public class main {
         readFile("RandomNames7000.csv", tbl);
     }
     
+    // taken from past PDI assignment
     public static void readFile(String pFilename, DSAHashTable tbl) {
         FileInputStream fileStream = null;
         InputStreamReader rdr;

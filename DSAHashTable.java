@@ -189,6 +189,7 @@ public class DSAHashTable {
 
     }
 
+    // taken from https://stackoverflow.com/questions/32684139/how-do-i-write-an-array-to-csv-in-java
     public void export(String fileName) {
         try {
             FileWriter writer = new FileWriter(fileName);
