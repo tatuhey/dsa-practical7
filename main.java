@@ -7,6 +7,7 @@ public class main {
         int sel = 100000;
         String key = "";
         Object val = null;
+        
         Scanner sc = new Scanner(System.in);
         DSAHashTable hashTbl = new DSAHashTable(7000);
 
@@ -21,22 +22,32 @@ public class main {
                 switch(sel) {
                     case 1:
                         System.out.println("Add an entry");
+                        sc.nextLine(); // to clean up terminal
+
                         System.out.print("Input key: ");
-                        key = sc.nextLine();
+                        key = sc.nextLine();    
+
                         System.out.print("Input value: ");
                         val = sc.nextLine();
+
                         hashTbl.put(key, val);
                         break;
                     case 2:
                         System.out.println("Find an entry");
+                        sc.nextLine(); // to clean up terminal
+
                         System.out.print("Input key: ");
                         key = sc.nextLine();
-                        hashTbl.get(key);
+
+                        System.out.println("Value: " + hashTbl.get(key));
                         break;
                     case 3:
                         System.out.println("Remove an entry");
+                        sc.nextLine(); // to clean up terminal
+
                         System.out.print("Input key: ");
                         key = sc.nextLine();
+
                         hashTbl.remove(key);
                         break;
                     case 4:

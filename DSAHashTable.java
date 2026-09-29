@@ -56,7 +56,8 @@ public class DSAHashTable {
 
     //region mutator
     public void put(String inKey, Object inValue) {
-        int index = hashFunction(inKey);
+        int length = hashArray.length;
+        int index = hashFunction(inKey, length);
 
         while(hashArray[index].getState() == 1) { // was hasharray [idx] != null
             index = (index + stepHash(inKey)) % hashArray.length; // was just idx + stephash
@@ -75,12 +76,12 @@ public class DSAHashTable {
 
     }
 
-    private int hashFunction(String key) {
+    private int hashFunction(String key, int arraySize) {
         int hashIndex = 0;
         for(int i = 0; i <= key.length() - 1; i++)
             hashIndex = (33 * hashIndex) + key.charAt(i); //bernstein hash function
 
-        return hashIndex % hashArray.length;
+        return hashIndex % arraySize;
     }
 
     private int stepHash(String key) {
@@ -94,7 +95,8 @@ public class DSAHashTable {
     }
 
     private int find(String inKey) {
-        int hashIndex = hashFunction(inKey);
+        int length = hashArray.length;
+        int hashIndex = hashFunction(inKey, length);
         int oriIndex = hashIndex;
         boolean found = false;
         boolean giveUp = false;
@@ -102,10 +104,10 @@ public class DSAHashTable {
         while(!found && !giveUp) {
             if(hashArray[hashIndex].getState() == 0)
                 giveUp = true;
-            else if(hashArray[hashIndex].getKey() == inKey)
+            else if(hashArray[hashIndex].getKey().equals(inKey)) // not using == for string
                 found = true;
             else {
-                hashIndex = (hashIndex + 1) % hashArray.length;
+                hashIndex = (hashIndex + stepHash(inKey)) % hashArray.length;
                 if(hashIndex == oriIndex)
                     giveUp = true;
             }
@@ -133,7 +135,7 @@ public class DSAHashTable {
             idx = idx + stepHash(inKey);
 
         System.out.print("This hash entry will be deleted: ");
-        hashArray[idx].toString();
+        System.out.println(hashArray[idx].toString());
 
         hashArray[idx].delAll();
         count--;
@@ -160,18 +162,29 @@ public class DSAHashTable {
         int newCount = 0;
 
         DSAHashEntry[] newHA = new DSAHashEntry[newActualSize];
-        for(int i = 0; i < actualSize; i++) {
-            while(hashArray[i] != null) {
-                Object val = hashArray[i].getValue();
-                String key = hashArray[i].getKey();
 
-                for(int j = 0; j < newActualSize; j++) {
-                    newHA[j].setAll(val, key);
-                    newCount++;
-                }  
+        for(int i = 0; i < newActualSize; i++)
+            newHA[i] = new DSAHashEntry(); // initialising all arrays
+
+        for(int i = 0; i < actualSize; i++) {
+            if(hashArray[i].getState() == 1) {
+
+                String key = hashArray[i].getKey();
+                Object value = hashArray[i].getValue();
+
+                int index = hashFunction(key, newActualSize);
+                newCount++;
+
+                while(newHA[index].getState() == 1) {
+                    index = (index + stepHash(key)) % newActualSize;
+                }
+
+                newHA[index].setAll(value, key);
+        
+                }
             }
-        }
         hashArray = newHA;
+        actualSize = newActualSize;
         count = newCount;
 
     }
