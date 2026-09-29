@@ -59,8 +59,12 @@ public class main {
                         System.out.println(hashTbl.actualSizeVal());
                         break;
                     case 5:
+                        System.out.println("Exporting hash table as a file");
+                        sc.nextLine();
+
                         System.out.print("Insert filename: ");
                         String name = sc.nextLine();
+
                         hashTbl.export(name);
                         System.out.println("File " + name + " has been created");
                         break;
