@@ -1,8 +1,11 @@
+
+
 public class DSAHashEntry {
     private Object m_value;
     private String m_key;
     private int m_state; // 0 = free, 1 = used, -1 = previously-used
 
+    //region constructor
     public DSAHashEntry(Object val, String key) {
         m_value = val;
         m_key = key;
@@ -14,6 +17,7 @@ public class DSAHashEntry {
         m_key = "";
         m_state = 0;
     }
+    //endregion
 
     //region accessor
     public Object getValue() {
@@ -26,6 +30,11 @@ public class DSAHashEntry {
 
     public int getState() {
         return m_state;
+    }
+
+    @Override
+    public String toString() {
+        return "Key: " + m_key + ", State: " + m_state;
     }
     //endregion
 
@@ -49,6 +58,18 @@ public class DSAHashEntry {
 
     public void setKey(String key) {
         m_key = key;
+    }
+
+    public void setAll(Object val, String key) {
+        setValue(val);
+        setKey(key);
+        setUsedState();
+    }
+
+    public void delAll() {
+        setValue(null);
+        setKey("");
+        setPrevUsedState();
     }
 
     //endregion
