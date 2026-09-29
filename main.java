@@ -124,15 +124,19 @@ public class main {
 
         splitLine = row.split(",");
 
-        try {
-            String key = splitLine[0];
-            Object value = splitLine[1];
+        if(splitLine.length >= 2){
+            try {
+                String key = splitLine[0];
+                Object value = splitLine[1];
 
-            tbl.put(key, value);            
+                tbl.put(key, value);            
 
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Array out of bound" + e.getMessage());
-        }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Array out of bound" + e.getMessage());
+            }
+        } else
+            System.out.println("Invalid CSV row: " + row);
+
     }
 
     

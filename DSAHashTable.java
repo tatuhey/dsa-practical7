@@ -58,14 +58,13 @@ public class DSAHashTable {
     public void put(String inKey, Object inValue) {
         int index = hashFunction(inKey);
 
-        while(hashArray[index] != null) {
-            index = index + stepHash(inKey);
+        while(hashArray[index].getState() == 1) { // was hasharray [idx] != null
+            index = (index + stepHash(inKey)) % hashArray.length; // was just idx + stephash
         }
         
         hashArray[index].setAll(inValue, inKey);
 
-        System.out.print("This hash entry has been added: ");
-        hashArray[index].toString();
+        System.out.println("This hash entry has been added. " + hashArray[index].toString());
         count++;
 
         double lf = getLoadFactor();
@@ -149,7 +148,7 @@ public class DSAHashTable {
     }
 
     public double getLoadFactor() {
-        return count/actualSize;
+        return (double) count/actualSize;
     }
 
     private int getNewSize() {
