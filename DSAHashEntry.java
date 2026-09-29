@@ -1,11 +1,18 @@
 public class DSAHashEntry {
     private Object m_value;
     private String m_key;
-    private int m_state; // 0 = free, 1 = used, 2 = previously-used
+    private int m_state; // 0 = free, 1 = used, -1 = previously-used
 
     public DSAHashEntry(Object val, String key) {
         m_value = val;
         m_key = key;
+        m_state = 1;
+    }
+
+    public DSAHashEntry() {
+        m_value  = null;
+        m_key = "";
+        m_state = 0;
     }
 
     //region accessor
@@ -33,7 +40,7 @@ public class DSAHashEntry {
     }
 
     public void setPrevUsedState() {
-        m_state = 2;
+        m_state = -1;
     }
 
     public void setValue(Object val) {
