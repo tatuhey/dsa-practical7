@@ -1,8 +1,9 @@
 import java.util.*;
 
+
 public class DSAHashTable {
-    private int count;
-    private int actualSize;
+    private int count = 0;
+    private int actualSize = 0;
     private DSAHashEntry[] hashArray;
     
     //region constructor
@@ -40,6 +41,16 @@ public class DSAHashTable {
         } while (!isPrime);
 
         return primeTest;
+    }
+    //endregion
+
+    //region accessor
+    public int countVal() {
+        return count;
+    }
+
+    public int actualSizeVal() {
+        return actualSize;
     }
     //endregion
 

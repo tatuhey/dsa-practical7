@@ -34,7 +34,7 @@ public class DSAHashEntry {
 
     @Override
     public String toString() {
-        return "Key: " + m_key + ", State: " + m_state;
+        return "Key: " + m_key + ", State: " + m_state + "Value: " + m_value;
     }
     //endregion
 
