@@ -29,8 +29,12 @@ public class main {
 
                         System.out.print("Input value: ");
                         val = sc.nextLine();
-
-                        hashTbl.put(key, val);
+                        try {
+                            hashTbl.put(key, val);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Please insert a proper key and value. " + e.getMessage());
+                        }
+                        
                         break;
                     case 2:
                         System.out.println("Find an entry");
@@ -39,7 +43,12 @@ public class main {
                         System.out.print("Input key: ");
                         key = sc.nextLine();
 
-                        System.out.println("Value: " + hashTbl.get(key));
+                        try {
+                            System.out.println("Value: " + hashTbl.get(key));
+                        } catch (NumberFormatException e) {
+                            System.out.println("Please insert a proper key. " + e.getMessage());
+                        }
+                        
                         break;
                     case 3:
                         System.out.println("Remove an entry");
@@ -48,7 +57,12 @@ public class main {
                         System.out.print("Input key: ");
                         key = sc.nextLine();
 
-                        hashTbl.remove(key);
+                        try {
+                            hashTbl.remove(key);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Please insert a proper key. " + e.getMessage());
+                        }
+                        
                         break;
                     case 4:
                         System.out.print("Load factor: ");
@@ -66,7 +80,7 @@ public class main {
                         String name = sc.nextLine();
 
                         hashTbl.export(name);
-                        System.out.println("File " + name + " has been created");
+                        
                         break;
                     case 0:
                         break;

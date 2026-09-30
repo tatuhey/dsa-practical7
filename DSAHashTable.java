@@ -197,7 +197,7 @@ public class DSAHashTable {
                 if(hashArray[i].getState() == 1)
                     writer.write(hashArray[i].getKey() + "," + hashArray[i].getValue() + "\n");
             }
-            
+            System.out.println("File " + fileName + " has been created");
             writer.close();
         } catch(IOException e) {
             System.out.println("Error during exporting the file. " + e.getMessage());
