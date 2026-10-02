@@ -5,15 +5,77 @@ import java.util.*;
 public class main {
     public static void main(String[] args) {
         int sel = 100000;
-        String key = "";
-        Object val = null;
-        
+       
         Scanner sc = new Scanner(System.in);
+        while(sel != 0) {
+            System.out.println("Select menu:");
+            System.out.println("1. Manual\n2. RandomNames7000.csv\n0. exit");
+            
+            try {
+                sel = sc.nextInt();
+                switch(sel) {
+                    case 1:
+                        // manual stuf
+                        manualHashTbl(sc);
+                        break;
+                    case 2:
+                        // randomnames7000csv
+                        autoSelection(sc);
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        System.out.println("Wrong selection");
+                }
+            }  catch (InputMismatchException e) {
+                sel = 100000;
+                sc.nextLine();
+                System.out.println(e + ". Please input selection properly.");
+                
+            } catch (NoSuchElementException e2) {
+                System.out.println(e2);
+            }
+        
+        }
+
+        sc.close();
+    }
+
+    public static void manualHashTbl(Scanner sc) {
+        int size = 0;
+        String filename;
+
+        try {
+            System.out.print("Insert size of heap: ");
+            size = sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println(e + ". Please input size of heap properly.");
+        }
+
+        System.out.println("Insert the file name: <filename.csv>");
+        filename = sc.nextLine();
+
+        DSAHashTable tbl = new DSAHashTable(size);
+        readFile(filename, tbl);
+
+        submenu(sc, tbl, filename);
+    }
+
+    public static void autoSelection(Scanner sc) {
         DSAHashTable hashTbl = new DSAHashTable(7000);
 
-        readCSV(sc, hashTbl);
+        readFile("RandomNames7000.csv", hashTbl);
+
+        submenu(sc, hashTbl, "RandomNames7000.csv");
+    }
+
+    public static void submenu(Scanner sc, DSAHashTable hashTbl, String filname) {
+        int sel = 1000000;
+        String key = "";
+        Object val = null;
 
         while(sel != 0) {
+            System.out.println("Current file being worked on: " + filname);
             System.out.println("Select menu:");
             System.out.println("1. Add entry\n2. Find entry\n3. Remove entry\n4. Load factor\n5. Export\n0. exit");
 
@@ -98,25 +160,8 @@ public class main {
             }
         
         }
-
-        sc.close();
     }
-
-    public static void manualHashTbl(Scanner sc) {
-        // System.out.print("Enter the size of Hash table: ");
-        // try {
-        //     int size = sc.nextInt();
-        // } catch (InputMismatchException e) {
-        //     sc.nextLine();
-        //     System.out.println(e + ". Please input size properly.");
-        // }
-        
-    }
-
-    public static void readCSV(Scanner sc, DSAHashTable tbl) {
-        readFile("RandomNames7000.csv", tbl);
-    }
-    
+   
     // taken from past PDI assignment
     public static void readFile(String pFilename, DSAHashTable tbl) {
         FileInputStream fileStream = null;
