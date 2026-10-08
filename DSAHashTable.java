@@ -68,17 +68,17 @@ public class DSAHashTable {
 
         if(hasKey(inKey)){
             dupCount++;
-            throw new IllegalArgumentException("Duplicate key found. " + inKey);
-        }
+            System.out.println("Duplicate key found. " + inKey);
+        } else {
+            while(hashArray[index].getState() == 1) { // was hasharray [idx] != null
+                index = (index + stepHash(inKey)) % hashArray.length; // was just idx + stephash
+            }
+            
+            hashArray[index].setAll(inValue, inKey);
 
-        while(hashArray[index].getState() == 1) { // was hasharray [idx] != null
-            index = (index + stepHash(inKey)) % hashArray.length; // was just idx + stephash
+            System.out.println("This hash entry has been added. " + hashArray[index].toString());
+            count++;
         }
-        
-        hashArray[index].setAll(inValue, inKey);
-
-        System.out.println("This hash entry has been added. " + hashArray[index].toString());
-        count++;
 
         double lf = getLoadFactor();
 
@@ -109,14 +109,25 @@ public class DSAHashTable {
     }
 
     private boolean hasKey(String inKey) {
-        boolean find = false;
-        try {
-            find(inKey);
-            find = true;
-        } catch (NoSuchElementException e) {
+        int length = hashArray.length;
+        int hashIndex = hashFunction(inKey, length);
+        int oriIndex = hashIndex;
+        boolean found = false;
+        boolean giveUp = false;
+        
+        while(!found && !giveUp) {
+            if(hashArray[hashIndex].getState() == 0)
+                giveUp = true;
+            else if(hashArray[hashIndex].getKey().equals(inKey)) // not using == for string
+                found = true;
+            else {
+                hashIndex = (hashIndex + stepHash(inKey)) % hashArray.length;
+                if(hashIndex == oriIndex)
+                    giveUp = true;
+            }
         }
 
-        return find;
+        return found;
     }
 
     private int find(String inKey) {
