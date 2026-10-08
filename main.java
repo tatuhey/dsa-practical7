@@ -141,7 +141,6 @@ public class main {
                         System.out.println(hashTbl.countVal());
                         System.out.print("Actual size = ");
                         System.out.println(hashTbl.actualSizeVal());
-                        System.out.println(hashTbl.getDupCount());
                         break;
                     case 5:
                         System.out.println("Exporting hash table as a file");
