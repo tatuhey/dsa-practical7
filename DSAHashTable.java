@@ -5,6 +5,7 @@ public class DSAHashTable {
     private int count = 0;
     private int actualSize = 0;
     private DSAHashEntry[] hashArray;
+    private int dupCount = 0;
     
     //region constructor
     //taken from https://www.geeksforgeeks.org/dsa/hash-table-data-structure/ aswell
@@ -52,12 +53,23 @@ public class DSAHashTable {
     public int actualSizeVal() {
         return actualSize;
     }
+
+    public int getDupCount() {
+        return dupCount;
+    }
     //endregion
 
     //region mutator
+
+
     public void put(String inKey, Object inValue) {
         int length = hashArray.length;
         int index = hashFunction(inKey, length);
+
+        if(hasKey(inKey)){
+            dupCount++;
+            throw new IllegalArgumentException("Duplicate key found. " + inKey);
+        }
 
         while(hashArray[index].getState() == 1) { // was hasharray [idx] != null
             index = (index + stepHash(inKey)) % hashArray.length; // was just idx + stephash
@@ -85,13 +97,26 @@ public class DSAHashTable {
     }
 
     private int stepHash(String key) {
-        int value;
-        int hashStep;
+        int value = 0;
+        int hashStep = 0;
 
-        value = Integer.parseInt(key);
+        for(int i = 0; i <= key.length() - 1; i++) {
+            value = key.charAt(i);
+
+        }
         hashStep = 5 - (value % 5); // 5 is max_step; must be prime number
-
         return hashStep;
+    }
+
+    private boolean hasKey(String inKey) {
+        boolean find = false;
+        try {
+            find(inKey);
+            find = true;
+        } catch (NoSuchElementException e) {
+        }
+
+        return find;
     }
 
     private int find(String inKey) {

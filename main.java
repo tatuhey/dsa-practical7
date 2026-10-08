@@ -20,7 +20,13 @@ public class main {
                         break;
                     case 2:
                         // randomnames7000csv
-                        autoSelection(sc);
+                        try {
+                            autoSelection(sc);
+                        }
+                        catch (IllegalArgumentException e) {
+                            System.out.println(e);
+                        }
+
                         break;
                     case 0:
                         break;
@@ -46,19 +52,21 @@ public class main {
         String filename;
 
         try {
-            System.out.print("Insert size of heap: ");
+            System.out.print("Insert size of hash table: ");
             size = sc.nextInt();
         } catch (InputMismatchException e) {
             System.out.println(e + ". Please input size of heap properly.");
         }
 
-        System.out.println("Insert the file name: <filename.csv>");
-        filename = sc.nextLine();
+        sc.nextLine();
+        
+        // System.out.println("Insert the file name: <filename.csv>");
+        // filename = sc.nextLine();
 
         DSAHashTable tbl = new DSAHashTable(size);
-        readFile(filename, tbl);
+        // readFile(filename, tbl);
 
-        submenu(sc, tbl, filename);
+        submenu(sc, tbl, "manual");
     }
 
     public static void autoSelection(Scanner sc) {
@@ -77,7 +85,7 @@ public class main {
         while(sel != 0) {
             System.out.println("Current file being worked on: " + filname);
             System.out.println("Select menu:");
-            System.out.println("1. Add entry\n2. Find entry\n3. Remove entry\n4. Load factor\n5. Export\n0. exit");
+            System.out.println("1. Add entry\n2. Find entry\n3. Remove entry\n4. Load factor\n5. Export\n6. Duplicate count\n0. exit");
 
             try {
                 sel = sc.nextInt();
@@ -93,7 +101,7 @@ public class main {
                         val = sc.nextLine();
                         try {
                             hashTbl.put(key, val);
-                        } catch (NumberFormatException e) {
+                        } catch (ArrayIndexOutOfBoundsException e) {
                             System.out.println("Please insert a proper key and value. " + e.getMessage());
                         }
                         
@@ -107,7 +115,7 @@ public class main {
 
                         try {
                             System.out.println("Value: " + hashTbl.get(key));
-                        } catch (NumberFormatException e) {
+                        } catch (ArrayIndexOutOfBoundsException e) {
                             System.out.println("Please insert a proper key. " + e.getMessage());
                         }
                         
@@ -121,7 +129,7 @@ public class main {
 
                         try {
                             hashTbl.remove(key);
-                        } catch (NumberFormatException e) {
+                        } catch (ArrayIndexOutOfBoundsException e) {
                             System.out.println("Please insert a proper key. " + e.getMessage());
                         }
                         
@@ -133,6 +141,7 @@ public class main {
                         System.out.println(hashTbl.countVal());
                         System.out.print("Actual size = ");
                         System.out.println(hashTbl.actualSizeVal());
+                        System.out.println(hashTbl.getDupCount());
                         break;
                     case 5:
                         System.out.println("Exporting hash table as a file");
@@ -143,6 +152,10 @@ public class main {
 
                         hashTbl.export(name);
                         
+                        break;
+                    case 6:
+                        System.out.println("Duplicate count: ");
+                        System.out.println(hashTbl.getDupCount());
                         break;
                     case 0:
                         break;
